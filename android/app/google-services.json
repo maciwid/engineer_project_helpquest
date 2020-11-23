@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "426924162610",
+    "firebase_url": "https://help-quest.firebaseio.com",
+    "project_id": "help-quest",
+    "storage_bucket": "help-quest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:426924162610:android:13e6629ffff80d6e15062b",
+        "android_client_info": {
+          "package_name": "pl.polsl.widlak.maciej.helpquest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "426924162610-siuupugva24b4i7c4srh06jdr72lvg1k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATKrElNxK495SP4tySBvL7eZ90rvlS4L8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "426924162610-siuupugva24b4i7c4srh06jdr72lvg1k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
