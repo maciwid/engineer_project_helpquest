@@ -32,7 +32,7 @@ dependencies:
   cloud_firestore: ^0.12.9+4
   provider: ^3.1.0
   flutter_spinkit: "^4.1.2"
-
+  curved_navigation_bar: ^0.3.4
 dev_dependencies:
   flutter_test:
     sdk: flutter
