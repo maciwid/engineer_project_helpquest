@@ -13,7 +13,10 @@ class _QuestFormState extends State<QuestForm> {
   final _formKey = GlobalKey<FormState>();
   // form values
   String _currentTitle;
-
+  String _currentTopic;
+  String _currentDescription;
+  String _currentStatus;
+  int _currentPriority;
   @override
   Widget build(BuildContext context) {
 
@@ -47,7 +50,15 @@ class _QuestFormState extends State<QuestForm> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: ()async{
-                      print(_currentTitle);
+                      if(_formKey.currentState.validate()){
+                        await DatabaseService(uid: user.uid).updateUserData(
+                            _currentTitle ?? userData.title,
+                            _currentTopic ?? userData.topic,
+                            _currentDescription ?? userData.description,
+                            _currentStatus ?? userData.status,
+                            _currentPriority ?? userData.priority);
+                        Navigator.pop(context);
+                      }
                     },
                   )
                 ],

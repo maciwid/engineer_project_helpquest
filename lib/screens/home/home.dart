@@ -17,9 +17,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final AuthService _auth = AuthService();
 
-  int currentTab = 0;
+
+  //int currentTab = 0;
 
   final List<Widget> pages = [
     Dashboard(),
@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    void _showSettingsPanel(){
+    void _showCreateQuestPanel(){
       showModalBottomSheet(context: context, builder: (context){
         return QuestForm();
       });
@@ -45,10 +45,11 @@ class _HomeState extends State<Home> {
         bucket: bucket,
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: "addBtn",
         child: Icon(Icons.add),
         backgroundColor: Colors.deepPurpleAccent,
         onPressed: (){
-          _showSettingsPanel();
+          _showCreateQuestPanel();
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

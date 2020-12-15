@@ -15,6 +15,7 @@ class AuthService{
         //.map((FirebaseUser user) => _userFromFirebaseUser(user));
         .map(_userFromFirebaseUser);
   }
+  /*
   //login anon
   Future signInAnon() async {
     try{
@@ -26,6 +27,8 @@ class AuthService{
       return null;
     }
   }
+  */
+
   //login mail
   Future signInWithEmailAndPassword(String email, String password) async{
     try{
@@ -50,7 +53,14 @@ class AuthService{
       return null;
     }
   }
-
+  //password reset
+  Future resetPassword(String email) async {
+    try{
+      return await _auth.sendPasswordResetEmail(email: email);
+    }catch(e){
+      print(e.toString());
+    }
+  }
   //sign out
 Future signOut() async
 {

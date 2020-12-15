@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:helpquest/services/auth.dart';
+import 'package:helpquest/services/database.dart';
 import 'package:helpquest/shared/loading.dart';
-
+import 'package:helpquest/shared/constants.dart';
+import 'package:helpquest/shared/helper_functions.dart';
 class Register extends StatefulWidget {
   final Function toggleView;
   Register({this.toggleView});
@@ -12,12 +14,14 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
+  final DatabaseService _databaseService = DatabaseService();
   bool loading = false;
 
   //text field state
   String email = '';
   String password = '';
   String error = '';
+  String username = '';
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +48,14 @@ class _RegisterState extends State<Register> {
                     children: <Widget>[
                       SizedBox(height: 20.0),
                       TextFormField(
+                        decoration: textInputDecoration.copyWith(hintText: 'Username'),
+                        validator: (val) => val.isEmpty ? 'Enter an username' : null,
+                        onChanged: (val){
+                          setState(()=> username = val);
+                        },
+                      ),
+                      SizedBox(height: 20.0),
+                      TextFormField(
                         validator: (val) => val.isEmpty ? 'Enter an email' : null,
                           onChanged: (val){
                             setState(()=> email = val);
@@ -67,11 +79,16 @@ class _RegisterState extends State<Register> {
                           onPressed: () async {
                             if(_formKey.currentState.validate()){
                               setState(()=> loading = true);
+                              _databaseService.uploadUserData(username, email);
+                              HelperFunctions.saveUserEmailSharedPreference(email);
+                              HelperFunctions.saveUserNameSharedPreference(username);
+                              HelperFunctions.saveUserLoggedInSharedPreference(true);
                               dynamic result = await _auth.registerWithEmailAndPassword(email, password);
                               if(result == null){
                                 setState(() {
                                   error = 'please supply a valid email';
                                   loading = false;
+                                  HelperFunctions.saveUserLoggedInSharedPreference(false);
                                 });
                               }
                             }

@@ -7,5 +7,9 @@ class User {
 class UserData{
   final String uid;
   final String title;
-  UserData({this.uid, this.title});
+  final String topic;
+  final String description;
+  final String status;
+  final int priority;
+  UserData({this.uid, this.title, this.topic, this.priority, this.status, this.description});
 }

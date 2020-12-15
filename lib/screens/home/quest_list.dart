@@ -12,11 +12,8 @@ import 'package:helpquest/screens/home/quest_tile.dart';
       @override
       Widget build(BuildContext context) {
 
-        final quests = Provider.of<List<Quest>>(context);
-        quests.forEach((quest){
-          print(quest.title);
-          print(quest.topic);
-        });
+        final quests = Provider.of<List<Quest>>(context) ?? [];
+
         //print(quests);
         return ListView.builder(
           itemCount: quests.length,

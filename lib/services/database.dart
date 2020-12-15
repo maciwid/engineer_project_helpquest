@@ -8,6 +8,8 @@ class DatabaseService{
   DatabaseService({this.uid});
   //collection reference
   final CollectionReference questCollection = Firestore.instance.collection('quests');
+  final CollectionReference userCollection = Firestore.instance.collection('users');
+  final CollectionReference chatRoomCollection = Firestore.instance.collection('chatRoom');
 
   Future updateUserData(String title, String topic, String description, String status, int priority) async {
     return await questCollection.document(uid).setData({
@@ -47,5 +49,27 @@ Stream<List<Quest>> get quests {
 Stream<UserData> get userData {
     return questCollection.document(uid).snapshots()
     .map(_userDataFromSnapshot);
+}
+  //get user by username
+Future getUserByUsername(String username) async{
+  return await userCollection.where("username", isEqualTo: username)
+      .getDocuments();
+}
+  Future getUserByEmail(String email) async{
+    return await userCollection.where("email", isEqualTo: email)
+        .getDocuments();
+  }
+//upload user info
+Future uploadUserData(String username, String email) async{
+  return await userCollection.document(uid).setData({
+    'username' : username,
+    'email' : email,
+  });
+}
+
+createChatRoom(String chatRoomID, String userName){
+    chatRoomCollection.document(chatRoomID).setData({
+      'chatRoomID' : chatRoomID,
+    });
 }
 }
