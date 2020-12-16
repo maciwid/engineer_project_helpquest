@@ -6,10 +6,11 @@ class User {
 
 class UserData{
   final String uid;
-  final String title;
-  final String topic;
-  final String description;
-  final String status;
-  final int priority;
-  UserData({this.uid, this.title, this.topic, this.priority, this.status, this.description});
+  final String email;
+  final String username;
+  final String bio;
+  final bool isOnline;
+  var quests;
+
+  UserData({this.uid, this.email, this.username, this.bio, this.isOnline, this.quests});
 }

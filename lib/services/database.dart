@@ -4,20 +4,36 @@ import 'package:helpquest/models/user.dart';
 
 class DatabaseService{
 
-  final String uid;
-  DatabaseService({this.uid});
+  final String key;
+  DatabaseService({this.key});
   //collection reference
   final CollectionReference questCollection = Firestore.instance.collection('quests');
   final CollectionReference userCollection = Firestore.instance.collection('users');
   final CollectionReference chatRoomCollection = Firestore.instance.collection('chatRoom');
 
-  Future updateUserData(String title, String topic, String description, String status, int priority) async {
-    return await questCollection.document(uid).setData({
+//upload user info
+  Future updateUserData(String username, String email, String bio, bool isOnline, var quests) async{
+    return await userCollection.document(key).setData({
+      'username' : username,
+      'email' : email,
+      'bio' : bio,
+      'isOnline' : isOnline,
+      'quests' : quests,
+    });
+  }
+  Future setStatus(bool isOnline) async{
+    return await userCollection.document(key).setData({'isOnline': isOnline});
+  }
+  //upload quest info
+  Future updateQuestData(String qid, String title, String category, String description, String status, String prize, String employerID) async {
+    return await questCollection.document(key).setData({
+      'qid' : qid,
       'title' : title,
-      'topic' : topic,
+      'category' : category,
       'description' : description,
       'status': status,
-      'priority': priority
+      'prize': prize,
+      'employerID' : employerID
     });
   }
   //quest list from snapshot
@@ -25,18 +41,33 @@ class DatabaseService{
     return snapshot.documents.map((doc){
       return Quest(
         title: doc.data['title'] ?? '',
-        topic: doc.data['topic'] ?? '',
+        category: doc.data['topic'] ?? '',
         description: doc.data['description']?? '',
         status: doc.data['status'] ?? '',
-        priority: doc.data['priority'] ?? 0
+        prize: doc.data['prize'] ?? ''
       );
     }).toList();
   }
   //userData form snapshot
   UserData _userDataFromSnapshot(DocumentSnapshot snapshot){
     return UserData(
-      uid: uid,
+      uid: key,
+      email: snapshot.data['email'],
+      username: snapshot.data['username'],
+      isOnline: snapshot.data['isOnline'],
+      quests: snapshot.data['quests'],
+      bio: snapshot.data['bio'],
+    );
+  }
+  Quest _questDataFromSnapshot(DocumentSnapshot snapshot){
+    return Quest(
+      qid: key,
       title: snapshot.data['title'],
+      category: snapshot.data['category'],
+      description: snapshot.data['description'],
+      status: snapshot.data['status'],
+      prize: snapshot.data['prize'],
+      employerID: snapshot.data['employerID'],
     );
   }
 
@@ -45,9 +76,14 @@ Stream<List<Quest>> get quests {
     return questCollection.snapshots()
       .map(_questListFromSnapshot);
 }
+//get quest doc stream
+  Stream<Quest> get quest{
+    return questCollection.document(key).snapshots()
+        .map(_questDataFromSnapshot);
+  }
   //get user doc stream
 Stream<UserData> get userData {
-    return questCollection.document(uid).snapshots()
+    return userCollection.document(key).snapshots()
     .map(_userDataFromSnapshot);
 }
   //get user by username
@@ -59,13 +95,6 @@ Future getUserByUsername(String username) async{
     return await userCollection.where("email", isEqualTo: email)
         .getDocuments();
   }
-//upload user info
-Future uploadUserData(String username, String email) async{
-  return await userCollection.document(uid).setData({
-    'username' : username,
-    'email' : email,
-  });
-}
 
 createChatRoom(String chatRoomID, String userName){
     chatRoomCollection.document(chatRoomID).setData({

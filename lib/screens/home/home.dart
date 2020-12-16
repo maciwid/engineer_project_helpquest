@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     void _showCreateQuestPanel(){
       showModalBottomSheet(context: context, builder: (context){
-        return QuestForm();
+        return QuestFormCreate();
       });
     }
     return Scaffold(

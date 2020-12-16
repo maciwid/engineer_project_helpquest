@@ -14,10 +14,10 @@ class QuestTile extends StatelessWidget {
         child: ListTile(
           leading: CircleAvatar(
           radius: 25.0,
-          backgroundColor: Colors.teal[quest.priority],
+          //backgroundColor: Colors.teal[quest.priority],
           ),
           title: Text(quest.title),
-          subtitle: Text(quest.topic)
+          subtitle: Text(quest.category)
         )
       )
     );

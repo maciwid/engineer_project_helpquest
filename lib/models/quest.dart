@@ -1,9 +1,11 @@
 class Quest {
+  final String qid;
   final String title;
-  final String topic;
+  final String category;
   final String description;
   final String status;
-  final int priority;
+  final String prize;
+  final String employerID;
 
-  Quest({this.title, this.topic, this.description, this.status, this.priority});
+  Quest({this.qid, this.title, this.category, this.description, this.status, this.prize, this.employerID});
 }

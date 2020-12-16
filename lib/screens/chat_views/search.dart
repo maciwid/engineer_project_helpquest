@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:helpquest/models/user.dart';
 import 'package:helpquest/shared/constants.dart';
 import 'package:helpquest/services/database.dart';
+import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -12,7 +14,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   TextEditingController searchTextEditingController = new TextEditingController();
   DatabaseService _databaseService = DatabaseService();
-
+  String username, email;
   QuerySnapshot searchSnapshot;
   initiateSearch(){
     _databaseService.getUserByUsername(searchTextEditingController.text)
@@ -39,6 +41,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Search"),
