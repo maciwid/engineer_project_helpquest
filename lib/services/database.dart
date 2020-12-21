@@ -22,7 +22,7 @@ class DatabaseService{
     });
   }
   Future setStatus(bool isOnline) async{
-    return await userCollection.document(key).setData({'isOnline': isOnline});
+    return await userCollection.document(key).updateData({'isOnline': isOnline});
   }
   //upload quest info
   Future updateQuestData(String qid, String title, String category, String description, String status, String prize, String employerID) async {
@@ -96,9 +96,23 @@ Future getUserByUsername(String username) async{
         .getDocuments();
   }
 
-createChatRoom(String chatRoomID, String userName){
-    chatRoomCollection.document(chatRoomID).setData({
+  Future createChatRoom(String chatRoomID, dynamic users) async {
+    return await chatRoomCollection.document(chatRoomID).setData({
       'chatRoomID' : chatRoomID,
+      'users' : users,
     });
+}
+
+  Future addConversationMessages(String chatRoomId, messageMap) async{
+  return await chatRoomCollection.document(chatRoomId).collection("chats")
+      .add(messageMap).catchError((e){print(e.toString());});
+}
+   getConversationMessages(String chatRoomId) async {
+    return await chatRoomCollection.document(chatRoomId).collection("chats")
+        .orderBy("time", descending: false).snapshots();
+  }
+ getChatRooms(String userName) async {
+    return await chatRoomCollection.where("users", arrayContains: userName)
+        .snapshots();
 }
 }

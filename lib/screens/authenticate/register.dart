@@ -3,7 +3,7 @@ import 'package:helpquest/services/auth.dart';
 import 'package:helpquest/services/database.dart';
 import 'package:helpquest/shared/loading.dart';
 import 'package:helpquest/shared/constants.dart';
-import 'package:helpquest/shared/helper_functions.dart';
+
 class Register extends StatefulWidget {
   final Function toggleView;
   Register({this.toggleView});
@@ -79,15 +79,11 @@ class _RegisterState extends State<Register> {
                           onPressed: () async {
                             if(_formKey.currentState.validate()){
                               setState(()=> loading = true);
-                              HelperFunctions.saveUserEmailSharedPreference(email);
-                              HelperFunctions.saveUserNameSharedPreference(username);
-                              HelperFunctions.saveUserLoggedInSharedPreference(true);
                               dynamic result = await _auth.registerWithEmailAndPassword(email, password, username);
                               if(result == null){
                                 setState(() {
                                   error = 'please supply a valid email';
                                   loading = false;
-                                  HelperFunctions.saveUserLoggedInSharedPreference(false);
                                 });
                               }
                             }
