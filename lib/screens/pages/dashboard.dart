@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:helpquest/models/quest.dart';
 import 'package:helpquest/screens/home/quest_list.dart';
 import 'package:helpquest/services/database.dart';
+import 'package:helpquest/shared/constants.dart';
 import 'package:provider/provider.dart';
 
 class Dashboard extends StatefulWidget {
@@ -16,11 +17,10 @@ class _DashboardState extends State<Dashboard> {
       value: DatabaseService().quests,
       child: Scaffold(
         backgroundColor: Colors.deepPurple,
-        appBar: AppBar(
-            title: Text('HelpQuest'),
-            backgroundColor: Colors.grey[900],
-        ),
-        body: QuestList(),
+        appBar: appBarMain(context, "Browse Quests"),
+        body: Container(
+            decoration: boxBackgroundDecoration,
+            child: QuestList()),
       ),
     );
   }

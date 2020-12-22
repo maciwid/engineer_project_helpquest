@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpquest/screens/chat_views/message_tile.dart';
 import 'package:helpquest/services/database.dart';
 import 'package:helpquest/shared/constants.dart';
 import 'package:helpquest/shared/local_data.dart';
@@ -6,6 +7,7 @@ import 'package:helpquest/shared/local_data.dart';
 class Conversation extends StatefulWidget {
   final String chatRoomId;
   final String myName;
+  //final String username;
   Conversation(this.chatRoomId, this.myName);
   @override
   _ConversationState createState() => _ConversationState();
@@ -57,19 +59,20 @@ TextEditingController messageController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("123"),
-      ),
+      appBar: appBarMain(context, "ChitChat"),
       body: Container(
         child: Stack(
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 70),
-              child: chatMessageList(),
+              child: Container(
+                  decoration: boxBackgroundDecoration,
+                  child: chatMessageList()),
             ),
             Container(
               alignment: Alignment.bottomCenter,
               child: Container(
+                decoration: boxBackgroundDecoration,
                 padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                 child: Row(
                     children: [
@@ -107,50 +110,6 @@ TextEditingController messageController = new TextEditingController();
           ],
         )
       )
-    );
-  }
-}
-
-class MessageTile extends StatelessWidget {
-  final String message;
-  final bool isSendByMe;
-  MessageTile(this.message, this.isSendByMe);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 6),
-      width: MediaQuery.of(context).size.width,
-      alignment: isSendByMe ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: isSendByMe ? [
-              const Color(0xff00fEF4),
-              const Color(0xff2A75BC)
-            ] : [
-              const Color(0x1AFFFFFF),
-              const Color(0x1AFFFFFf)
-            ],
-          ),
-          borderRadius: isSendByMe ?
-              BorderRadius.only(
-                topLeft: Radius.circular(23),
-                topRight: Radius.circular(23),
-                bottomLeft: Radius.circular(23)
-              ):
-              BorderRadius.only(
-                  topLeft: Radius.circular(23),
-                  topRight: Radius.circular(23),
-                  bottomRight: Radius.circular(23)
-              )
-        ),
-        child: Text(message, style: TextStyle(
-        color: Colors.black,
-        fontSize: 17
-      )),
-      ),
     );
   }
 }

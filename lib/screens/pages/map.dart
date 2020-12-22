@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpquest/shared/constants.dart';
 
 class Map extends StatefulWidget {
   @override
@@ -9,9 +10,10 @@ class _MapState extends State<Map> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Map'),
-        )
+        appBar: appBarMain(context, "Map"),
+      body: Container(
+        decoration: boxBackgroundDecoration,
+      )
     );
   }
 }

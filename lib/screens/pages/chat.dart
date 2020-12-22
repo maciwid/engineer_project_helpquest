@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpquest/screens/chat_views/chat_rooms_tile.dart';
 import 'package:helpquest/screens/chat_views/search.dart';
 import 'package:helpquest/services/database.dart';
 import 'package:helpquest/shared/constants.dart';
@@ -44,12 +45,13 @@ class _ChatState extends State<Chat> {
     getChatRooms();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Chat'),
+      appBar: appBarMain(context, "Chat"),
 
-      ),
-      body: chatRoomList(),
+      body: Container(
+          decoration: boxBackgroundDecoration,
+          child: chatRoomList()),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: primaryColor2shade1,
         heroTag: "searchBtn",
       child: Icon(Icons.search),
       onPressed: (){
@@ -58,41 +60,6 @@ class _ChatState extends State<Chat> {
         ));
       },
     ),
-    );
-  }
-}
-
-class ChatRoomsTile extends StatelessWidget {
-  final String userName;
-  final String chatRoomId;
-  ChatRoomsTile(this.userName, this.chatRoomId);
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) => Conversation(chatRoomId, LocalData.myName))
-        );
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        child: Row(
-          children: [
-            Container(
-              height: 40,
-              width: 40,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(40)
-              ),
-              child: Text("${userName.substring(0,1).toUpperCase()}")
-            ),
-            SizedBox(width: 8,),
-            Text(userName, style: mediumTextStyle(),)
-          ],
-        )
-      ),
     );
   }
 }

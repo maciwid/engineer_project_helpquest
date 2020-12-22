@@ -9,6 +9,7 @@ import 'package:helpquest/screens/pages/map.dart';
 import 'package:helpquest/screens/pages/profile.dart';
 import 'package:helpquest/services/auth.dart';
 import 'package:helpquest/services/database.dart';
+import 'package:helpquest/shared/constants.dart';
 import 'package:helpquest/shared/local_data.dart';
 import 'package:provider/provider.dart';
 import 'package:helpquest/screens/home/quest_list.dart';
@@ -54,7 +55,7 @@ class _HomeState extends State<Home> {
           floatingActionButton: FloatingActionButton(
             heroTag: "addBtn",
             child: Icon(Icons.add),
-            backgroundColor: Colors.deepPurpleAccent,
+            backgroundColor: primaryColor1shade,
             onPressed: (){
               _showCreateQuestPanel();
             },
@@ -62,7 +63,8 @@ class _HomeState extends State<Home> {
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           //Bottom App Bar
           bottomNavigationBar: CurvedNavigationBar(
-            backgroundColor: Colors.deepPurple,
+            color: Colors.pink[800],
+            backgroundColor: primaryColor2shade,
             height: 60,
             items: <Widget>[
               Icon(Icons.dashboard, size: 30),

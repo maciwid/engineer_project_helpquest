@@ -25,26 +25,27 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return loading ? Loading() : Scaffold(
-      backgroundColor: Colors.grey[300],
       appBar: AppBar(
-        backgroundColor: Colors.purple[700],
-        elevation: 0.0,
-        title: Text('Sign in to HelpQuest'),
+        backgroundColor: primaryColor2shade1,
+        elevation: 5.0,
+        title: Text('Sign in', style: mediumTextStyle,),
           actions: <Widget>[
             FlatButton.icon(
                 onPressed: (){
                   widget.toggleView();
                 },
-                icon: Icon(Icons.person_add),
-                label: Text('Register'))
+                icon: Icon(Icons.person_add, color: primaryColor1,),
+                label: Text('Register', style: mediumTextStyle,))
           ]
       ),
       body: Container(
+        decoration: boxBackgroundDecoration,
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
         child: Form(
             key: _formKey,
           child: Column(
             children: <Widget>[
+              Text("HelpQuest", style: logoTextStyle),
               SizedBox(height: 20.0),
               TextFormField(
                 decoration: textInputDecoration.copyWith(hintText: 'Email'),
