@@ -58,45 +58,54 @@ class _RegisterState extends State<Register> {
                             SizedBox(height: 30),
                             Text("HelpQuest", style: logoTextStyle),
                             SizedBox(height: 20.0),
-                            TextFormField(
-                              decoration: textInputDecoration.copyWith(
-                                  hintText: 'Username'),
-                              validator: (val) =>
-                              val.isEmpty
-                                  ? 'Enter an username'
-                                  : null,
-                              onChanged: (val) {
-                                setState(() => username = val);
-                              },
-                            ),
-                            SizedBox(height: 20.0),
-                            TextFormField(
+                            Container(
+                              decoration: inputBoxDecoration,
+                              child: TextFormField(
                                 decoration: textInputDecoration.copyWith(
-                                    hintText: 'Email'),
+                                    hintText: 'Username'),
                                 validator: (val) =>
                                 val.isEmpty
-                                    ? 'Enter an email'
+                                    ? 'Enter an username'
                                     : null,
                                 onChanged: (val) {
-                                  setState(() => email = val);
-                                }
+                                  setState(() => username = val);
+                                },
+                              ),
                             ),
                             SizedBox(height: 20.0),
-                            TextFormField(
-                                obscureText: true,
-                                decoration: textInputDecoration.copyWith(
-                                    hintText: 'Password'),
-                                validator: (val) =>
-                                val.length < 6
-                                    ? 'Enter a password 6+ chars long'
-                                    : null,
-                                onChanged: (val) {
-                                  setState(() => password = val);
-                                }
+                            Container(
+                              decoration: inputBoxDecoration,
+                              child: TextFormField(
+                                  decoration: textInputDecoration.copyWith(
+                                      hintText: 'Email', suffixIcon: Icon(Icons.mail)),
+                                  validator: (val) =>
+                                  val.isEmpty
+                                      ? 'Enter an email'
+                                      : null,
+                                  onChanged: (val) {
+                                    setState(() => email = val);
+                                  }
+                              ),
+                            ),
+                            SizedBox(height: 20.0),
+                            Container(
+                              decoration: inputBoxDecoration,
+                              child: TextFormField(
+                                  obscureText: true,
+                                  decoration: textInputDecoration.copyWith(
+                                      hintText: 'Password'),
+                                  validator: (val) =>
+                                  val.length < 6
+                                      ? 'Enter a password 6+ chars long'
+                                      : null,
+                                  onChanged: (val) {
+                                    setState(() => password = val);
+                                  }
+                              ),
                             ),
                             SizedBox(height: 20.0),
                             RaisedButton(
-                                color: Colors.pink[400],
+                                color: Colors.pink[900],
                                 child: Text(
                                   'Register',
                                   style: TextStyle(color: Colors.white),

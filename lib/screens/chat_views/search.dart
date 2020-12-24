@@ -62,49 +62,51 @@ class _SearchScreenState extends State<SearchScreen> {
             context,
             "Search"
           ),
-          body: Column(
-            children: [
-              Container(
-                decoration: boxBackgroundDecoration,
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: TextField(
-                          controller: searchTextEditingController,
-                          decoration: textInputDecoration.copyWith(hintText: 'search username...'),
-                            onChanged: (val){
-                              setState(()=> username = val);
-                            }
-                        ),
-                    ),
-                    SizedBox(width: 5,),
-                    Container(
-                      width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              const Color(0x36FaaFFF),
-                              const Color(0x0FFbbbFFF)
-                            ]
+          body: Container(
+            decoration: boxBackgroundDecoration,
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: TextField(
+                            controller: searchTextEditingController,
+                            decoration: textInputDecoration.copyWith(hintText: 'search username...'),
+                              onChanged: (val){
+                                setState(()=> username = val);
+                              }
                           ),
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                        padding: EdgeInsets.all(8),
+                      ),
+                      SizedBox(width: 16,),
+                      Container(
+                        width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                const Color(0x36FaaFFF),
+                                const Color(0x0FFbbbFFF)
+                              ]
+                            ),
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          padding: EdgeInsets.all(8),
 
-                        child: GestureDetector(
-                          onTap: (){
-                            initiateSearch();
-                          },
-                            child: Icon(Icons.search)
-                        ),
-                    )
-                  ]
+                          child: GestureDetector(
+                            onTap: (){
+                              initiateSearch();
+                            },
+                              child: Icon(Icons.search)
+                          ),
+                      )
+                    ]
+                  ),
                 ),
-              ),
-              searchList(myName)
-            ]
+                searchList(myName)
+              ]
+            ),
           )
         );
       }

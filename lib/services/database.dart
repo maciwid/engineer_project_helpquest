@@ -12,20 +12,24 @@ class DatabaseService{
   final CollectionReference chatRoomCollection = Firestore.instance.collection('chatRoom');
 
 //upload user info
-  Future updateUserData(String username, String email, String bio, bool isOnline, var quests) async{
+  Future updateUserData(String username, String email, String bio, bool isOnline) async{
     return await userCollection.document(key).setData({
+      'uid': key,
       'username' : username,
       'email' : email,
       'bio' : bio,
       'isOnline' : isOnline,
-      'quests' : quests,
     });
   }
   Future setStatus(bool isOnline) async{
     return await userCollection.document(key).updateData({'isOnline': isOnline});
   }
+
+  Future addQuestToCollection(String qid, bool isOwner) async{
+    return await userCollection.document(key).collection("quests").add({"questID" : qid, "isOwner" : isOwner});
+  }
   //upload quest info
-  Future updateQuestData(String qid, String title, String category, String description, String status, String prize, String employerID) async {
+  Future updateQuestData(String qid, String title, String category, String description, String status, num prize, String employerID) async {
     return await questCollection.document(key).setData({
       'qid' : qid,
       'title' : title,
@@ -49,8 +53,8 @@ class DatabaseService{
     }).toList();
   }
   //userData form snapshot
-  UserData _userDataFromSnapshot(DocumentSnapshot snapshot){
-    return UserData(
+  User _userDataFromSnapshot(DocumentSnapshot snapshot){
+    return User(
       uid: key,
       email: snapshot.data['email'],
       username: snapshot.data['username'],
@@ -82,7 +86,7 @@ Stream<List<Quest>> get quests {
         .map(_questDataFromSnapshot);
   }
   //get user doc stream
-Stream<UserData> get userData {
+Stream<User> get userData {
     return userCollection.document(key).snapshots()
     .map(_userDataFromSnapshot);
 }

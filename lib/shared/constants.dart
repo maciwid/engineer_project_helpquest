@@ -8,8 +8,7 @@ const primaryColor2shade1 =Color.fromRGBO(0, 4, 68, 1);
 const primaryColor3 =  Color.fromRGBO(238, 255, 142, 1);
 
 const textInputDecoration = InputDecoration(
-  fillColor: primaryColor2,
-  filled: true,
+  filled: false,
   enabledBorder: OutlineInputBorder(
       borderSide: BorderSide(color: primaryColor2, width: 2.0)
   ),
@@ -18,6 +17,18 @@ const textInputDecoration = InputDecoration(
   ),
 );
 
+var inputBoxDecoration = BoxDecoration(
+    borderRadius: BorderRadius.circular(3),
+    gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          primaryColor2shade,
+          primaryColor2,
+          primaryColor1shade
+        ]
+    )
+);
 const boxBackgroundDecoration = BoxDecoration(
   gradient: LinearGradient(
       begin: Alignment.topCenter,
@@ -25,7 +36,8 @@ const boxBackgroundDecoration = BoxDecoration(
     colors: [
       Colors.black,
       primaryColor2shade1,
-      primaryColor2shade
+      primaryColor2shade,
+      primaryColor1
     ]
   )
 );

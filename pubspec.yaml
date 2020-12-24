@@ -34,6 +34,7 @@ dependencies:
   flutter_spinkit: "^4.1.2"
   curved_navigation_bar: ^0.3.4
   uuid: ^2.2.2
+  number_inc_dec: ^0.6.6
 dev_dependencies:
   flutter_test:
     sdk: flutter

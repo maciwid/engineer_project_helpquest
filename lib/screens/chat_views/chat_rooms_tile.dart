@@ -17,6 +17,14 @@ class ChatRoomsTile extends StatelessWidget {
         );
       },
       child: Container(
+        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(3),
+          gradient: LinearGradient(colors: [
+            primaryColor2shade1,
+            Colors.black
+          ])
+        ),
           padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Row(
             children: [

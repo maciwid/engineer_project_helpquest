@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helpquest/models/quest.dart';
-import 'package:helpquest/screens/home/quest_list.dart';
+import 'file:///C:/Users/macie/Documents/helpquest/helpquest/lib/screens/quest_views/quest_list.dart';
 import 'package:helpquest/services/database.dart';
 import 'package:helpquest/shared/constants.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +20,7 @@ class _DashboardState extends State<Dashboard> {
         appBar: appBarMain(context, "Browse Quests"),
         body: Container(
             decoration: boxBackgroundDecoration,
-            child: QuestList()),
+            child: QuestList(false)),
       ),
     );
   }
