@@ -4,7 +4,6 @@ import 'package:helpquest/models/user.dart';
 import 'package:helpquest/services/database.dart';
 import 'package:helpquest/shared/constants.dart';
 import 'package:helpquest/shared/loading.dart';
-import 'package:helpquest/shared/local_data.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:number_inc_dec/number_inc_dec.dart';
@@ -12,13 +11,14 @@ import 'package:number_inc_dec/number_inc_dec.dart';
 
 
 class QuestFormCreate extends StatefulWidget {
-  bool isLocal;
+  final bool isLocal;
   QuestFormCreate(this.isLocal);
   @override
   _QuestFormCreateState createState() => _QuestFormCreateState();
 }
 
 class _QuestFormCreateState extends State<QuestFormCreate> {
+
   final _formKey = GlobalKey<FormState>();
   var uuid = Uuid();
   // form values
@@ -26,12 +26,11 @@ class _QuestFormCreateState extends State<QuestFormCreate> {
   String _currentTitle;
   String _currentCategory;
   String _currentDescription;
-  String _currentStatus;
+  //String _currentStatus;
   num _currentPrize;
   final List<String> categories = ['delivery', 'transport', 'manual labor', 'other'];
   @override
   Widget build(BuildContext context) {
-
     final user = Provider.of<User>(context);
             return SingleChildScrollView(
               child: Container(
@@ -42,6 +41,7 @@ class _QuestFormCreateState extends State<QuestFormCreate> {
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
                         children: <Widget>[
+                          SizedBox(height: 10.0),
                           Text(
                             'Create Quest',
                             style: titleTextStyle,
@@ -68,6 +68,7 @@ class _QuestFormCreateState extends State<QuestFormCreate> {
                             validator: (val) => val.isEmpty ? 'Enter a description':null,
                             onChanged: (val) => setState(()=> _currentDescription = val),
                           ),
+                          SizedBox(height: 20.0),
                           NumberInputWithIncrementDecrement(
                             controller: TextEditingController(),
                             min: 0,
@@ -75,6 +76,7 @@ class _QuestFormCreateState extends State<QuestFormCreate> {
                             onIncrement: (val)=> setState(()=>_currentPrize = val),
                             onDecrement: (val)=> setState(()=>_currentPrize = val),
                           ),
+                          SizedBox(height: 50.0),
                           RaisedButton(
                             color: Colors.pink[400],
                             child:Row(
@@ -94,7 +96,7 @@ class _QuestFormCreateState extends State<QuestFormCreate> {
                                     _currentTitle,
                                     _currentCategory,
                                     _currentDescription,
-                                    _currentStatus,
+                                    "looking for a hero",
                                     _currentPrize,
                                     user.uid
                                 );
@@ -103,7 +105,7 @@ class _QuestFormCreateState extends State<QuestFormCreate> {
                               }
                             },
                           ),
-                          SizedBox(height: 40.0),
+                          SizedBox(height: 50.0),
                         ],
                       ),
                     )
@@ -114,75 +116,17 @@ class _QuestFormCreateState extends State<QuestFormCreate> {
 }
 
 
-class QuestFormView extends StatefulWidget {
-  final String qid;
-  QuestFormView(this.qid);
-  @override
-  _QuestFormViewState createState() => _QuestFormViewState();
-}
 
-class _QuestFormViewState extends State<QuestFormView> {
-  bool enableEdit;
-  final _formKey = GlobalKey<FormState>();
-
-  void _showEditQuestPanel(){
-    showModalBottomSheet(context: context, builder: (context){
-      return QuestFormEdit();
-    });
-  }
-  @override
-  Widget build(BuildContext context) {
-//TODO
-    final userData = Provider.of<User>(context);
-
-    return StreamBuilder<Quest>(
-        stream: DatabaseService(key: widget.qid).quest,
-        builder: (context, snapshot) {
-          if(snapshot.hasData){
-
-            Quest questData = snapshot.data;
-            if(userData.uid == questData.employerID)
-              enableEdit = true;
-            return Form(
-                key: _formKey,
-                child: Column(
-                  children: <Widget>[
-                    FlatButton.icon(
-                onPressed: (){
-                  if(enableEdit)
-                  _showEditQuestPanel;
-                  },
-                  icon: Icon(
-                      Icons.settings,
-                      color: (enableEdit) ? Color.fromRGBO(255, 95, 155, 1) : Color.fromRGBO(255, 95, 155, 0))),
-                    Text(
-                      'Quest Details',
-                      style: titleTextStyle,
-                    ),
-                    SizedBox(height: 20.0),
-                    Text("questData.title", style: mediumTextStyle,),
-                    Text("Employer: ${userData.username}", style: mediumTextStyle,),
-                    Text("Category: ${questData.category}", style: mediumTextStyle,),
-                    Text(questData.description, style: simpleTextStyle,),
-                  ],
-                )
-            );
-          }else{
-            return Loading();
-          }
-
-        }
-    );
-  }
-}
 
 
 class QuestFormEdit extends StatefulWidget {
+  final Quest quest;
+  QuestFormEdit(this.quest);
   @override
-  _QuestFormViewState createState() => _QuestFormViewState();
+  _QuestFormEditState createState() => _QuestFormEditState();
 }
 
-class _QuestFormEditState extends State<QuestFormView> {
+class _QuestFormEditState extends State<QuestFormEdit> {
   final _formKey = GlobalKey<FormState>();
   // form values
   String _currentTitle;
@@ -191,35 +135,42 @@ class _QuestFormEditState extends State<QuestFormView> {
   String _currentStatus;
   num _currentPrize;
   final List<String> categories = ['delivery', 'transport', 'manual labor', 'other'];
+  final List<String> statuses = ['looking for a hero', 'in progress', 'completed'];
   @override
   Widget build(BuildContext context) {
 
     //final user = Provider.of<User>(context);
-    final quest = Provider.of<Quest>(context);
 
-    return StreamBuilder<Quest>(
-      stream: DatabaseService(key: quest.qid).quest,
-      builder: (context, snapshot) {
-        if(snapshot.hasData){
-
-          Quest questData = snapshot.data;
           return Form(
               key: _formKey,
               child: Column(
                 children: <Widget>[
+                  SizedBox(height: 10.0),
                   Text(
                     'Edit Quest',
                     style: titleTextStyle,
                   ),
                   SizedBox(height: 20.0),
+                  DropdownButtonFormField(
+                      value:  _currentStatus  ?? widget.quest.status,
+                      items: statuses.map((status){
+                        return DropdownMenuItem(
+                          value: status,
+                          child: Text('$status'),
+                        );
+                      }).toList(),
+                      onChanged: (val) => setState(()=>_currentStatus = val)
+                  ),
+                  SizedBox(height: 20,),
                   TextFormField(
-                    initialValue: questData.title,
+                    initialValue: widget.quest.title,
                     decoration: textInputDecoration,
                     validator: (val) => val.isEmpty ? 'Please enter a title':null,
                     onChanged: (val) => setState(()=> _currentTitle = val),
                   ),
                   SizedBox(height: 20,),
                   DropdownButtonFormField(
+                    value: _currentCategory ?? widget.quest.category,
                       items: categories.map((cat){
                         return DropdownMenuItem(
                           value: cat,
@@ -230,10 +181,12 @@ class _QuestFormEditState extends State<QuestFormView> {
                   ),
                   SizedBox(height: 20.0),
                   TextFormField(
+                    initialValue: widget.quest.description,
                     decoration: textInputDecoration.copyWith(hintText: "Description"),
                     validator: (val) => val.isEmpty ? 'Enter a description':null,
                     onChanged: (val) => setState(()=> _currentDescription = val),
                   ),
+                  SizedBox(height: 20.0),
                   NumberInputWithIncrementDecrement(
                     controller: TextEditingController(),
                     min: 0,
@@ -241,7 +194,7 @@ class _QuestFormEditState extends State<QuestFormView> {
                     onIncrement: (val)=> setState(()=>_currentPrize = val),
                     onDecrement: (val)=> setState(()=>_currentPrize = val),
                   ),
-
+                  SizedBox(height: 50.0),
                   RaisedButton(
                     color: Colors.pink[400],
                     child:Text(
@@ -250,26 +203,22 @@ class _QuestFormEditState extends State<QuestFormView> {
                     ),
                     onPressed: ()async{
                       if(_formKey.currentState.validate()){
-                        await DatabaseService(key: questData.qid).updateQuestData(
-                            questData.qid,
-                            _currentTitle ?? questData.title,
-                            _currentCategory ?? questData.category,
-                            _currentDescription ?? questData.description,
-                            _currentStatus ?? questData.status,
-                            _currentPrize ?? questData.prize,
-                            questData.employerID);
+                        await DatabaseService(key: widget.quest.qid).updateQuestData(
+                            widget.quest.qid,
+                            _currentTitle ?? widget.quest.title,
+                            _currentCategory ?? widget.quest.category,
+                            _currentDescription ?? widget.quest.description,
+                            _currentStatus ?? widget.quest.status,
+                            _currentPrize ?? widget.quest.prize,
+                            widget.quest.employerID);
                         Navigator.pop(context);
                       }
                     },
-                  )
+                  ),
+                  SizedBox(height: 50.0),
                 ],
               )
           );
-        }else{
-          return Loading();
-        }
 
-      }
-    );
   }
 }

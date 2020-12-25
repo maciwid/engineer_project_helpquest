@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:helpquest/screens/chat_views/message_tile.dart';
 import 'package:helpquest/services/database.dart';
 import 'package:helpquest/shared/constants.dart';
-import 'package:helpquest/shared/local_data.dart';
 
 class Conversation extends StatefulWidget {
   final String chatRoomId;

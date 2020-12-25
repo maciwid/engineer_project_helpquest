@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:helpquest/models/user.dart';
 import 'package:helpquest/screens/chat_views/chat_rooms_tile.dart';
 import 'package:helpquest/screens/chat_views/search.dart';
 import 'package:helpquest/services/database.dart';
 import 'package:helpquest/shared/constants.dart';
 import 'package:helpquest/screens/chat_views/conversation.dart';
-import 'package:helpquest/shared/local_data.dart';
+import 'package:provider/provider.dart';
 class Chat extends StatefulWidget {
   @override
   _ChatState createState() => _ChatState();
@@ -14,7 +15,7 @@ class _ChatState extends State<Chat> {
   DatabaseService _databaseService = DatabaseService();
   Stream chatRoomsStream;
 
-  Widget chatRoomList(){
+  Widget chatRoomList(myName){
     return StreamBuilder(
       stream: chatRoomsStream,
       builder: (context, snapshot){
@@ -24,7 +25,7 @@ class _ChatState extends State<Chat> {
               return ChatRoomsTile(
                 snapshot.data.documents[index].data["chatRoomID"]
                     .toString().replaceAll("_", "")
-                    .replaceAll(LocalData.myName, " "),
+                    .replaceAll(myName, " "),
                   snapshot.data.documents[index].data["chatRoomID"]
               );
 
@@ -33,8 +34,8 @@ class _ChatState extends State<Chat> {
     );
   }
 
- void getChatRooms(){
-   _databaseService.getChatRooms(LocalData.myName).then((value){
+ void getChatRooms(myName){
+   _databaseService.getChatRooms(myName).then((value){
      setState(() {
        chatRoomsStream = value;
      });
@@ -42,14 +43,15 @@ class _ChatState extends State<Chat> {
  }
   @override
   Widget build(BuildContext context) {
-    getChatRooms();
+    final userData = Provider.of<UserData>(context);
+    getChatRooms(userData.username);
 
     return Scaffold(
       appBar: appBarMain(context, "Chat"),
 
       body: Container(
           decoration: boxBackgroundDecoration,
-          child: chatRoomList()),
+          child: chatRoomList(userData.username)),
       floatingActionButton: FloatingActionButton(
         backgroundColor: primaryColor2shade1,
         heroTag: "searchBtn",

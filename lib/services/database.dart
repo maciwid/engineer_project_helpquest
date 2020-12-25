@@ -44,8 +44,10 @@ class DatabaseService{
   List<Quest> _questListFromSnapshot(QuerySnapshot snapshot){
     return snapshot.documents.map((doc){
       return Quest(
+        qid: doc.data['qid'] ?? '',
         title: doc.data['title'] ?? '',
-        category: doc.data['topic'] ?? '',
+        employerID: doc.data['employerID'] ?? '',
+        category: doc.data['category'] ?? '',
         description: doc.data['description']?? '',
         status: doc.data['status'] ?? '',
         prize: doc.data['prize'] ?? ''
@@ -53,13 +55,12 @@ class DatabaseService{
     }).toList();
   }
   //userData form snapshot
-  User _userDataFromSnapshot(DocumentSnapshot snapshot){
-    return User(
+  UserData _userDataFromSnapshot(DocumentSnapshot snapshot){
+    return UserData(
       uid: key,
       email: snapshot.data['email'],
       username: snapshot.data['username'],
       isOnline: snapshot.data['isOnline'],
-      quests: snapshot.data['quests'],
       bio: snapshot.data['bio'],
     );
   }
@@ -86,7 +87,7 @@ Stream<List<Quest>> get quests {
         .map(_questDataFromSnapshot);
   }
   //get user doc stream
-Stream<User> get userData {
+Stream<UserData> get userData {
     return userCollection.document(key).snapshots()
     .map(_userDataFromSnapshot);
 }
@@ -98,6 +99,11 @@ Future getUserByUsername(String username) async{
   Future getUserByEmail(String email) async{
     return await userCollection.where("email", isEqualTo: email)
         .getDocuments();
+  }
+
+  Future getUserByUid(String uid) async{
+    return await userCollection.document(uid).get();
+
   }
 
   Future createChatRoom(String chatRoomID, dynamic users) async {

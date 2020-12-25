@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:helpquest/models/user.dart';
 import 'package:helpquest/screens/chat_views/conversation.dart';
 import 'package:helpquest/shared/constants.dart';
-import 'package:helpquest/shared/local_data.dart';
+import 'package:provider/provider.dart';
 
 
 class ChatRoomsTile extends StatelessWidget {
@@ -10,10 +11,11 @@ class ChatRoomsTile extends StatelessWidget {
   ChatRoomsTile(this.userName, this.chatRoomId);
   @override
   Widget build(BuildContext context) {
+    final userData = Provider.of<UserData>(context);
     return GestureDetector(
       onTap: (){
         Navigator.push(context, MaterialPageRoute(
-            builder: (context) => Conversation(chatRoomId, LocalData.myName))
+            builder: (context) => Conversation(chatRoomId, userData.username))
         );
       },
       child: Container(
@@ -38,7 +40,7 @@ class ChatRoomsTile extends StatelessWidget {
                   ),
                   child: Text("${userName.substring(0,1).toUpperCase()}")
               ),
-              SizedBox(width: 8,),
+              SizedBox(width: 12),
               Text(userName, style: mediumTextStyle,)
             ],
           )

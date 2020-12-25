@@ -87,10 +87,19 @@ class _SignInState extends State<SignIn> {
                             ),
                             SizedBox(height: 20.0),
                             RaisedButton(
-                                color: Colors.pink[900],
-                                child: Text(
-                                  'Sign in',
-                                  style: TextStyle(color: Colors.white),
+                                child: Container(
+                                  //padding: EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(3),
+                                      gradient: LinearGradient(colors: [
+                                        primaryColor2shade1,
+                                        Colors.black
+                                      ])
+                                  ),
+                                  child: Text(
+                                    'Sign in',
+                                    style: mediumTextStyle,
+                                  ),
                                 ),
                                 onPressed: () async {
                                   if (_formKey.currentState.validate()) {

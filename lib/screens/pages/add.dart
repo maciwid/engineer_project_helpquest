@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/macie/Documents/helpquest/helpquest/lib/screens/quest_views/quest_form.dart';
+import 'package:helpquest/screens/quest_views/quest_form.dart';
 import 'package:helpquest/shared/constants.dart';
 
 class Add extends StatefulWidget {
@@ -12,7 +12,7 @@ class _AddState extends State<Add> {
   void _showCreateQuestPanel(bool isLocal){
     showModalBottomSheet(context: context, builder: (context){
       return QuestFormCreate(isLocal);
-    });
+    }, isScrollControlled:true);
   }
 
   @override
@@ -29,10 +29,12 @@ class _AddState extends State<Add> {
             ButtonTheme(
               minWidth: double.infinity,
               child: RaisedButton(
-              color: Colors.pink[900],
-                child: Text(
-                  'Create Local Quest',
-                  style: TextStyle(color: Colors.white),
+                child: Container(
+                  decoration: buttonDecoration,
+                  child: Text(
+                    'Create Local Quest',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
                 onPressed: (){
                   _showCreateQuestPanel(true);
@@ -42,10 +44,12 @@ class _AddState extends State<Add> {
             ButtonTheme(
               minWidth: double.infinity,
               child: RaisedButton(
-                  color: Colors.pink[900],
-                  child: Text(
-                    'Create Virtual Quest',
-                    style: TextStyle(color: Colors.white),
+                  child: Container(
+                    decoration: buttonDecoration,
+                    child: Text(
+                      'Create Virtual Quest',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                   onPressed: (){
                     _showCreateQuestPanel(false);

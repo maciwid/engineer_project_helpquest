@@ -29,6 +29,15 @@ var inputBoxDecoration = BoxDecoration(
         ]
     )
 );
+
+var buttonDecoration = BoxDecoration(
+    borderRadius: BorderRadius.circular(3),
+    gradient: LinearGradient(colors: [
+      primaryColor2shade1,
+      Colors.black
+    ]
+    )
+);
 const boxBackgroundDecoration = BoxDecoration(
   gradient: LinearGradient(
       begin: Alignment.topCenter,

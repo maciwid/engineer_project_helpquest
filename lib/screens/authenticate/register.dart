@@ -14,7 +14,6 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
-  final DatabaseService _databaseService = DatabaseService();
   bool loading = false;
 
   //text field state
@@ -62,7 +61,7 @@ class _RegisterState extends State<Register> {
                               decoration: inputBoxDecoration,
                               child: TextFormField(
                                 decoration: textInputDecoration.copyWith(
-                                    hintText: 'Username'),
+                                    hintText: 'Username',suffixIcon: Icon(Icons.person)),
                                 validator: (val) =>
                                 val.isEmpty
                                     ? 'Enter an username'
@@ -93,7 +92,7 @@ class _RegisterState extends State<Register> {
                               child: TextFormField(
                                   obscureText: true,
                                   decoration: textInputDecoration.copyWith(
-                                      hintText: 'Password'),
+                                      hintText: 'Password', suffixIcon: Icon(Icons.lock_open)),
                                   validator: (val) =>
                                   val.length < 6
                                       ? 'Enter a password 6+ chars long'
@@ -105,10 +104,12 @@ class _RegisterState extends State<Register> {
                             ),
                             SizedBox(height: 20.0),
                             RaisedButton(
-                                color: Colors.pink[900],
-                                child: Text(
-                                  'Register',
-                                  style: TextStyle(color: Colors.white),
+                                child: Container(
+                                  decoration: buttonDecoration,
+                                  child: Text(
+                                    'Register',
+                                    style: mediumTextStyle,
+                                  ),
                                 ),
                                 onPressed: () async {
                                   if (_formKey.currentState.validate()) {

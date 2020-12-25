@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helpquest/shared/constants.dart';
 
 class SearchTile extends StatelessWidget {
   final String username;
@@ -21,9 +22,13 @@ class SearchTile extends StatelessWidget {
             Spacer(),
             Container(
               decoration: BoxDecoration(
-                  color: Colors.lightBlue,
-                  borderRadius: BorderRadius.circular(30)
+                  borderRadius: BorderRadius.circular(30),
+                  gradient: LinearGradient(colors: [
+                    primaryColor2shade1,
+                    Colors.black
+                  ])
               ),
+
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               child: FlatButton(
                 onPressed: (){
