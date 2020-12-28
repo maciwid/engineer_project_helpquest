@@ -7,7 +7,23 @@ const primaryColor2 = Color.fromRGBO(20, 74, 184, 1);
 const primaryColor2shade1 =Color.fromRGBO(0, 4, 68, 1);
 const primaryColor3 =  Color.fromRGBO(238, 255, 142, 1);
 
+var appTheme = ThemeData(
+  primaryColor: primaryColor2,
+  accentColor: primaryColor1,
+  fontFamily: "Comfortaa",
+    inputDecorationTheme: const InputDecorationTheme(
+      labelStyle: TextStyle(color: primaryColor1, fontFamily: 'Comfortaa'),
+      hintStyle: TextStyle(color: primaryColor1, fontSize: 12, fontFamily: 'Comfortaa'),
+    ),
+  textTheme: TextTheme(
+    headline1: TextStyle(fontSize: 72.0, fontFamily: 'Thunderstrike', color: primaryColor1),
+    headline6: TextStyle(fontSize: 36.0, fontFamily: 'CruiserFortress3d', color: primaryColor1),
+    bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Comfortaa', color: primaryColor1shade),
+  ),
+);
+
 const textInputDecoration = InputDecoration(
+  hintStyle: simpleTextStyle,
   filled: false,
   enabledBorder: OutlineInputBorder(
       borderSide: BorderSide(color: primaryColor2, width: 2.0)
@@ -68,8 +84,8 @@ Widget appBarMain(BuildContext context, String title) {
 }
 
 const simpleTextStyle = TextStyle(
-  color: primaryColor2shade1,
-  fontSize: 16,
+  color: primaryColor1,
+  fontSize: 14,
   fontFamily: 'Comfortaa',
 );
 
@@ -88,7 +104,7 @@ const titleTextStyle = TextStyle(
 
 const logoTextStyle = TextStyle(
     color: primaryColor1,
-    fontSize: 30,
+    fontSize: 48,
     fontFamily: 'Thunderstrike'
 
 );

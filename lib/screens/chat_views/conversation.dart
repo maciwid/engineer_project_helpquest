@@ -6,8 +6,8 @@ import 'package:helpquest/shared/constants.dart';
 class Conversation extends StatefulWidget {
   final String chatRoomId;
   final String myName;
-  //final String username;
-  Conversation(this.chatRoomId, this.myName);
+  final String username;
+  Conversation(this.chatRoomId, this.myName, this.username);
   @override
   _ConversationState createState() => _ConversationState();
 }
@@ -58,20 +58,24 @@ TextEditingController messageController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarMain(context, "ChitChat"),
+      appBar: AppBar(
+        title: Text("Chat with ${widget.username}",
+          style:  mediumTextStyle),
+      backgroundColor: primaryColor2shade1,
+      ),
       body: Container(
         child: Stack(
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 70),
               child: Container(
-                  decoration: boxBackgroundDecoration,
+                  decoration: inputBoxDecoration,
                   child: chatMessageList()),
             ),
             Container(
               alignment: Alignment.bottomCenter,
               child: Container(
-                decoration: boxBackgroundDecoration,
+                decoration: buttonDecoration,
                 padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                 child: Row(
                     children: [
@@ -79,15 +83,17 @@ TextEditingController messageController = new TextEditingController();
                         child: TextField(
                             decoration: textInputDecoration.copyWith(hintText: 'message...'),
                             controller: messageController,
+                          style: mediumTextStyle,
                         ),
                       ),
+                      SizedBox(width: 20,),
                       Container(
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                               colors: [
-                                const Color(0x36FFFFFF),
+                                 primaryColor1,
                                 const Color(0x0FFbbbFFF)
                               ]
                           ),

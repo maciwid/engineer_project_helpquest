@@ -54,14 +54,14 @@ class _RegisterState extends State<Register> {
                       key: _formKey,
                       child: Column(
                           children: <Widget>[
-                            SizedBox(height: 30),
+                            SizedBox(height: 20),
                             Text("HelpQuest", style: logoTextStyle),
-                            SizedBox(height: 20.0),
+                            SizedBox(height: 40.0),
                             Container(
                               decoration: inputBoxDecoration,
                               child: TextFormField(
                                 decoration: textInputDecoration.copyWith(
-                                    hintText: 'Username',suffixIcon: Icon(Icons.person)),
+                                    hintText: 'username...',suffixIcon: Icon(Icons.person)),
                                 validator: (val) =>
                                 val.isEmpty
                                     ? 'Enter an username'
@@ -69,6 +69,7 @@ class _RegisterState extends State<Register> {
                                 onChanged: (val) {
                                   setState(() => username = val);
                                 },
+                                style: mediumTextStyle,
                               ),
                             ),
                             SizedBox(height: 20.0),
@@ -76,14 +77,15 @@ class _RegisterState extends State<Register> {
                               decoration: inputBoxDecoration,
                               child: TextFormField(
                                   decoration: textInputDecoration.copyWith(
-                                      hintText: 'Email', suffixIcon: Icon(Icons.mail)),
+                                      hintText: 'email...', suffixIcon: Icon(Icons.mail)),
                                   validator: (val) =>
                                   val.isEmpty
                                       ? 'Enter an email'
                                       : null,
                                   onChanged: (val) {
                                     setState(() => email = val);
-                                  }
+                                  },
+                                style: mediumTextStyle,
                               ),
                             ),
                             SizedBox(height: 20.0),
@@ -92,24 +94,23 @@ class _RegisterState extends State<Register> {
                               child: TextFormField(
                                   obscureText: true,
                                   decoration: textInputDecoration.copyWith(
-                                      hintText: 'Password', suffixIcon: Icon(Icons.lock_open)),
+                                      hintText: 'password...', suffixIcon: Icon(Icons.lock_open)),
                                   validator: (val) =>
                                   val.length < 6
                                       ? 'Enter a password 6+ chars long'
                                       : null,
                                   onChanged: (val) {
                                     setState(() => password = val);
-                                  }
+                                  },
+                                style: mediumTextStyle,
                               ),
                             ),
-                            SizedBox(height: 20.0),
+                            SizedBox(height: 30.0),
                             RaisedButton(
-                                child: Container(
-                                  decoration: buttonDecoration,
-                                  child: Text(
-                                    'Register',
-                                    style: mediumTextStyle,
-                                  ),
+                                color: primaryColor2,
+                                child: Text(
+                                  'Register',
+                                  style: mediumTextStyle,
                                 ),
                                 onPressed: () async {
                                   if (_formKey.currentState.validate()) {

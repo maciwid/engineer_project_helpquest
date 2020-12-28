@@ -14,9 +14,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
-    final userData = Provider.of<UserData>(context);
     return StreamProvider<List<Quest>>.value(
-
       value: DatabaseService().quests,
       child: Scaffold(
         backgroundColor: Colors.deepPurple,

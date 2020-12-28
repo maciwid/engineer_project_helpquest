@@ -102,7 +102,7 @@ Future getUserByUsername(String username) async{
   }
 
   Future getUserByUid(String uid) async{
-    return await userCollection.document(uid).get();
+    return await userCollection.where("uid", isEqualTo: uid).getDocuments();
 
   }
 
@@ -125,4 +125,8 @@ Future getUserByUsername(String username) async{
     return await chatRoomCollection.where("users", arrayContains: userName)
         .snapshots();
 }
+  getChatRoomsById(String chatRoomId) async {
+    return await chatRoomCollection.where("chatRoomID", isEqualTo: chatRoomId)
+        .snapshots();
+  }
 }

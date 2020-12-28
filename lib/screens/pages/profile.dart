@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:helpquest/models/quest.dart';
+import 'package:helpquest/screens/profile_edit.dart';
 import 'package:helpquest/screens/quest_views/quest_list.dart';
 import 'package:helpquest/services/auth.dart';
 import 'package:helpquest/services/database.dart';
 import 'package:helpquest/shared/constants.dart';
-import 'package:provider/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:helpquest/models/user.dart';
 
@@ -38,30 +38,53 @@ class _ProfileState extends State<Profile> {
             ]
 
         ),
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.only(left: 30),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: FloatingActionButton(
+                backgroundColor: primaryColor2shade1,
+                heroTag: "editBtn",
+                child: Icon(Icons.settings),
+                onPressed: (){
+                  showModalBottomSheet(context: context, builder: (context){
+                    return ProfileEdit();
+                  }, isScrollControlled:true);
+                },
+              ),
+            ),
+          ),
           body: Container(
             decoration: boxBackgroundDecoration,
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height,
                 padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                     //decoration: boxBackgroundDecoration,
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text("Username:"),
-                            //Text(user.username),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text("Bio:"),
-                            //Text(user.bio),
-                          ],
-                        ),
-                          Expanded(child: SizedBox(
-                            height: 100,
-                              child: QuestList(true)))
-                      ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text("Username: ", style: simpleTextStyle),
+                              Text(userData.username, style: mediumTextStyle,),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text("Bio:  ", style: simpleTextStyle),
+                              Text(userData.bio, style: mediumTextStyle),
+                            ],
+                          ),
+                          SizedBox(height: 10,),
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("Your quests:", style: simpleTextStyle,)),
+                            Expanded(child: SizedBox(
+                              height: 100,
+                                child: QuestList(true)))
+                        ],
+                      ),
                     )
                   ),
 

@@ -28,7 +28,9 @@ import 'package:helpquest/screens/quest_views/quest_tile.dart';
               }
             }
             else{
-              return QuestTile(quest: quests[index]);}
+              if(quests[index].status!="completed")
+               return QuestTile(quest: quests[index]);
+            }
         },
         );
       }

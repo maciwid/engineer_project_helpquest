@@ -39,7 +39,6 @@ class _SearchScreenState extends State<SearchScreen> {
               username: searchSnapshot.documents[index].data["username"],
               email: searchSnapshot.documents[index].data["email"],
               startChat: () {
-                print("yooo $myName");
                 _chatService.createChatRoomAndStartChat(username, myName, context);
               });
         }): Container();
@@ -73,7 +72,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                 decoration: textInputDecoration.copyWith(hintText: 'search username...'),
                                   onChanged: (val){
                                     setState(()=> username = val);
-                                  }
+                                  },
+                                style: mediumTextStyle,
                               ),
                           ),
                           SizedBox(width: 16,),

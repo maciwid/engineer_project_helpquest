@@ -26,34 +26,36 @@ class _AddState extends State<Add> {
         child: Column(
           children: [
             SizedBox(height: 40,),
-            ButtonTheme(
-              minWidth: double.infinity,
-              child: RaisedButton(
-                child: Container(
-                  decoration: buttonDecoration,
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0, horizontal: 90),
+              child: ButtonTheme(
+                buttonColor: Colors.pink[400],
+                minWidth: double.infinity,
+                child: RaisedButton(
                   child: Text(
                     'Create Local Quest',
                     style: TextStyle(color: Colors.white),
                   ),
-                ),
-                onPressed: (){
-                  _showCreateQuestPanel(true);
-                }),
+                  onPressed: (){
+                    _showCreateQuestPanel(true);
+                  }),
+              ),
             ),
             SizedBox(height: 40,),
-            ButtonTheme(
-              minWidth: double.infinity,
-              child: RaisedButton(
-                  child: Container(
-                    decoration: buttonDecoration,
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 0, horizontal: 90),
+              child: ButtonTheme(
+                buttonColor: Colors.pink[400],
+                minWidth: double.infinity,
+                child: RaisedButton(
                     child: Text(
                       'Create Virtual Quest',
                       style: TextStyle(color: Colors.white),
                     ),
-                  ),
-                  onPressed: (){
-                    _showCreateQuestPanel(false);
-                  }),
+                    onPressed: (){
+                      _showCreateQuestPanel(false);
+                    }),
+              ),
             ),
           ],
         )

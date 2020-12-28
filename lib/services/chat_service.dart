@@ -8,9 +8,12 @@ class ChatService{
   createChatRoomAndStartChat(String userName, String myName, BuildContext context){
     List<String> users = [userName, myName];
     String chatRoomId = getChatRoomID(userName, myName);
-    _databaseService.createChatRoom(chatRoomId, users);
+    _databaseService.getChatRoomsById(chatRoomId).then((value){
+     // if(value == null)
+        _databaseService.createChatRoom(chatRoomId, users);
+    });
     Navigator.push(context, MaterialPageRoute(
-        builder: (context) => Conversation(chatRoomId, myName)
+        builder: (context) => Conversation(chatRoomId, myName, userName)
     ));
   }
 

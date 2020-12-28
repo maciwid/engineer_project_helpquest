@@ -53,20 +53,22 @@ class _SignInState extends State<SignIn> {
                       key: _formKey,
                       child: Column(
                           children: <Widget>[
-                            Text("HelpQuest", style: logoTextStyle),
                             SizedBox(height: 20.0),
+                            Text("HelpQuest", style: logoTextStyle),
+                            SizedBox(height: 40.0),
                             Container(
                               decoration: inputBoxDecoration,
                               child: TextFormField(
                                   decoration: textInputDecoration.copyWith(
-                                      hintText: 'Email'),
+                                      hintText: 'email...', suffixIcon: Icon(Icons.mail)),
                                   validator: (val) =>
                                   val.isEmpty
                                       ? 'Enter an email'
                                       : null,
                                   onChanged: (val) {
                                     setState(() => email = val);
-                                  }
+                                  },
+                                  style: mediumTextStyle,
                               ),
                             ),
                             SizedBox(height: 20.0),
@@ -74,7 +76,7 @@ class _SignInState extends State<SignIn> {
                               decoration: inputBoxDecoration,
                               child: TextFormField(
                                   decoration: textInputDecoration.copyWith(
-                                      hintText: 'Password'),
+                                      hintText: 'password...', suffixIcon: Icon(Icons.lock_open)),
                                   obscureText: true,
                                   validator: (val) =>
                                   val.length < 6
@@ -82,20 +84,15 @@ class _SignInState extends State<SignIn> {
                                       : null,
                                   onChanged: (val) {
                                     setState(() => password = val);
-                                  }
+                                  },
+                                style: mediumTextStyle,
                               ),
                             ),
-                            SizedBox(height: 20.0),
+                            SizedBox(height: 40.0),
                             RaisedButton(
+                              color: primaryColor2,
                                 child: Container(
                                   //padding: EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(3),
-                                      gradient: LinearGradient(colors: [
-                                        primaryColor2shade1,
-                                        Colors.black
-                                      ])
-                                  ),
                                   child: Text(
                                     'Sign in',
                                     style: mediumTextStyle,

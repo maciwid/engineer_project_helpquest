@@ -5,6 +5,7 @@ import 'package:helpquest/models/user.dart';
 import 'package:helpquest/screens/quest_views/quest_view.dart';
 import 'package:helpquest/services/database.dart';
 import 'package:helpquest/shared/constants.dart';
+import 'package:helpquest/shared/loading.dart';
 class QuestTile extends StatelessWidget {
 
   final Quest quest;
@@ -15,7 +16,7 @@ class QuestTile extends StatelessWidget {
     return StreamBuilder<UserData>(
       stream: DatabaseService(key: quest.employerID).userData,
       builder: (context, snapshot) {
-        return Padding(
+        return (snapshot.hasData) ? Padding(
           padding: EdgeInsets.only(top: 8.0),
           child: GestureDetector(
             onTap: (){
@@ -29,6 +30,7 @@ class QuestTile extends StatelessWidget {
                 decoration: inputBoxDecoration,
                 child: Column(
                   children: [
+                    SizedBox(height: 10,),
                     ListTile(
                       focusColor: primaryColor2shade1,
                       title: Text(quest.title),
@@ -39,7 +41,7 @@ class QuestTile extends StatelessWidget {
                           children: [
                             Text("Employer: ${snapshot.data.username}"),
                             Text("Category: ${quest.category}"),
-                            Text("Amount: ${quest.prize} g"),
+                            Text("Prize: ${quest.prize} credits"),
                             Text("Status: ${quest.status}"),
                             Text("Description: ${quest.description}")
                           ],
@@ -51,7 +53,7 @@ class QuestTile extends StatelessWidget {
               )
             ),
           )
-        );
+        ) : Loading();
       }
     );
   }

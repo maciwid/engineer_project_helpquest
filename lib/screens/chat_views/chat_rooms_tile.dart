@@ -15,7 +15,7 @@ class ChatRoomsTile extends StatelessWidget {
     return GestureDetector(
       onTap: (){
         Navigator.push(context, MaterialPageRoute(
-            builder: (context) => Conversation(chatRoomId, userData.username))
+            builder: (context) => Conversation(chatRoomId, userData.username, userName))
         );
       },
       child: Container(
@@ -35,10 +35,15 @@ class ChatRoomsTile extends StatelessWidget {
                   width: 40,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                      color: primaryColor1,
+                      gradient: LinearGradient(
+                          colors: [
+                            const Color(0x36FaaFFF),
+                            const Color(0x0FFbbbFFF)
+                          ]
+                      ),
                       borderRadius: BorderRadius.circular(40)
                   ),
-                  child: Text("${userName.substring(0,1).toUpperCase()}")
+                  child: Text("${userName.substring(0,1).toUpperCase()}", style: TextStyle(fontFamily: 'CruiserFortress3d', fontSize: 20, color: primaryColor3,))
               ),
               SizedBox(width: 12),
               Text(userName, style: mediumTextStyle,)
