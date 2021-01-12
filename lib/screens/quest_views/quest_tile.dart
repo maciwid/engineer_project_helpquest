@@ -21,29 +21,32 @@ class QuestTile extends StatelessWidget {
           child: GestureDetector(
             onTap: (){
               Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => QuestFormView(quest))
+                  builder: (context) => QuestDetails(quest.qid))
               );
             },
             child: Card(
               margin: EdgeInsets.fromLTRB(20, 6, 20, 0),
               child: Container(
-                decoration: inputBoxDecoration,
+                decoration: (quest.region.isEmpty)? listItemDecoration2 :listItemDecoration,
                 child: Column(
                   children: [
                     SizedBox(height: 10,),
                     ListTile(
                       focusColor: primaryColor2shade1,
-                      title: Text(quest.title),
+                      title: Text(quest.title, style: mediumTextStyle,),
                       subtitle: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           crossAxisAlignment:CrossAxisAlignment.start,
                           children: [
-                            Text("Employer: ${snapshot.data.username}"),
-                            Text("Category: ${quest.category}"),
-                            Text("Prize: ${quest.prize} credits"),
-                            Text("Status: ${quest.status}"),
-                            Text("Description: ${quest.description}")
+                            Text("Status: ${quest.status}",style: detailsTextStyle),
+                            Text("Employer: ${snapshot.data.username}", style: detailsTextStyle),
+                            Text("Category: ${quest.category}",style: detailsTextStyle),
+                            Visibility(
+                                visible: quest.region.isNotEmpty,
+                                child: Text("Region: ${quest.region}",style: detailsTextStyle)),
+                            Text("Prize: ${quest.prize} credits",style: detailsTextStyle),
+                            Text("Description: ${quest.description}",style: detailsTextStyle)
                           ],
                         ),
                       )

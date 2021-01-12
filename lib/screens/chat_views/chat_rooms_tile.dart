@@ -43,7 +43,7 @@ class ChatRoomsTile extends StatelessWidget {
                       ),
                       borderRadius: BorderRadius.circular(40)
                   ),
-                  child: Text("${userName.substring(0,1).toUpperCase()}", style: TextStyle(fontFamily: 'CruiserFortress3d', fontSize: 20, color: primaryColor3,))
+                  child: Text("${userName.substring(0,1).toUpperCase()}", style: TextStyle(fontFamily: 'FredokaOne', fontSize: 20, color: primaryColor3,))
               ),
               SizedBox(width: 12),
               Text(userName, style: mediumTextStyle,)

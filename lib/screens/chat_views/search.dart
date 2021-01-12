@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:helpquest/models/user.dart';
-import 'package:helpquest/screens/chat_views/conversation.dart';
 import 'package:helpquest/screens/chat_views/search_tile.dart';
 import 'package:helpquest/services/chat_service.dart';
 import 'package:helpquest/shared/constants.dart';

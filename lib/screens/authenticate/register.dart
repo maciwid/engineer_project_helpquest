@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:helpquest/services/auth.dart';
-import 'package:helpquest/services/database.dart';
 import 'package:helpquest/shared/loading.dart';
 import 'package:helpquest/shared/constants.dart';
 
@@ -130,7 +129,7 @@ class _RegisterState extends State<Register> {
                             SizedBox(height: 12.0),
                             Text(
                                 error,
-                                style: TextStyle(color: Colors.red,
+                                style: TextStyle(color: primaryColor3,
                                     fontSize: 14.0)
                             )
                           ]

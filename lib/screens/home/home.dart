@@ -32,8 +32,7 @@ class _HomeState extends State<Home> {
     final user = Provider.of<User>(context);
     return StreamProvider.value(
       value:  DatabaseService(key: user.uid).userData,
-      child: //(snapshot.hasData) ?
-      Scaffold(
+      child: Scaffold(
           body: PageStorage(
             child: currentPage,
             bucket: bucket,

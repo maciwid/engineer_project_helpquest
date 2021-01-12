@@ -24,8 +24,8 @@ class SearchTile extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                   gradient: LinearGradient(colors: [
-                    primaryColor2shade1,
-                    Colors.black
+                    primaryColor1,
+                    primaryColor1shade
                   ])
               ),
 

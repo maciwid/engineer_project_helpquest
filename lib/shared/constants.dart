@@ -41,19 +41,34 @@ var inputBoxDecoration = BoxDecoration(
         colors: [
           primaryColor2shade,
           primaryColor2,
+          primaryColor2shade1
+        ]
+    )
+);
+var listItemDecoration = BoxDecoration(
+    borderRadius: BorderRadius.circular(3),
+    gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          primaryColor2shade,
+          primaryColor2,
           primaryColor1shade
         ]
     )
 );
-
-var buttonDecoration = BoxDecoration(
+var listItemDecoration2 = BoxDecoration(
     borderRadius: BorderRadius.circular(3),
-    gradient: LinearGradient(colors: [
-      primaryColor2shade1,
-      Colors.black
-    ]
+    gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          primaryColor2shade,
+          primaryColor2,
+        ]
     )
 );
+
 const boxBackgroundDecoration = BoxDecoration(
   gradient: LinearGradient(
       begin: Alignment.topCenter,
@@ -73,8 +88,8 @@ Widget appBarMain(BuildContext context, String title) {
       title,
       style: TextStyle(
           color: primaryColor1,
-          fontSize: 22,
-          fontFamily: 'CruiserFortress3d'
+          fontSize: 24,
+          fontFamily: 'FredokaOne'
       ),
       ),
     backgroundColor: primaryColor2shade1,
@@ -85,20 +100,25 @@ Widget appBarMain(BuildContext context, String title) {
 
 const simpleTextStyle = TextStyle(
   color: primaryColor1,
-  fontSize: 14,
+  fontSize: 16,
+  fontFamily: 'Comfortaa',
+);
+const detailsTextStyle = TextStyle(
+  color: primaryColor3,
+  fontSize: 16,
   fontFamily: 'Comfortaa',
 );
 
 const mediumTextStyle = TextStyle(
   color: primaryColor1shade,
-  fontSize: 17,
+  fontSize: 18,
   fontFamily: 'Comfortaa',
 );
 
 const titleTextStyle = TextStyle(
       color: primaryColor1,
-      fontSize: 22,
-      fontFamily: 'CruiserFortress3d'
+      fontSize: 24,
+      fontFamily: 'FredokaOne'
 
 );
 

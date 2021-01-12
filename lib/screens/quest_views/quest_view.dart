@@ -5,54 +5,56 @@ import 'package:helpquest/screens/quest_views/quest_form.dart';
 import 'package:helpquest/services/chat_service.dart';
 import 'package:helpquest/services/database.dart';
 import 'package:helpquest/shared/constants.dart';
+import 'package:helpquest/shared/loading.dart';
 import 'package:provider/provider.dart';
 
 
-class QuestFormView extends StatefulWidget {
-  final Quest quest;
-  QuestFormView(this.quest);
+class QuestDetails extends StatefulWidget {
+  final String questID;
+  QuestDetails(this.questID);
   @override
-  _QuestFormViewState createState() => _QuestFormViewState();
+  _QuestDetailsState createState() => _QuestDetailsState();
 }
 
-class _QuestFormViewState extends State<QuestFormView> {
-  bool enableEdit = false;
+class _QuestDetailsState extends State<QuestDetails> {
  ChatService _chatService = ChatService();
-  void _showEditQuestPanel(){
+  void _showEditQuestPanel(Quest quest){
     showModalBottomSheet(context: context, builder: (context){
-      return QuestFormEdit(widget.quest);
+      return QuestFormEdit(quest);
     },  isScrollControlled:true);
   }
   @override
   Widget build(BuildContext context) {
 
     final user = Provider.of<User>(context);
-    if(user.uid == widget.quest.employerID)
-      setState((){enableEdit = true;});
 
-    return StreamBuilder<UserData>(
-        stream: DatabaseService(key: widget.quest.employerID).userData,
+
+    return StreamBuilder<Quest>(
+        stream: DatabaseService(key: widget.questID).quest,
         builder: (context, snapshot) {
-          return StreamBuilder<UserData>(
+          return (snapshot.hasData) ? StreamBuilder<UserData>(
             stream: DatabaseService(key: user.uid).userData,
             builder: (context, snapshot1) {
-              return Scaffold(
+              return (snapshot1.hasData) ? Scaffold(
                   appBar: AppBar(
                       title: Text('Quest details',
                           style:  mediumTextStyle),
                       backgroundColor: primaryColor2shade1,
                       actions: <Widget>[
-                        FlatButton.icon(
-                            onPressed: (){
-                              if(enableEdit)
-                                _showEditQuestPanel();
-                            },
-                            icon: Icon(
-                                Icons.settings,
-                                color: (enableEdit) ? Color.fromRGBO(255, 95, 155, 1) : Color.fromRGBO(255, 95, 155, 0)),
-                            label: Text("Edit", style: TextStyle(
-                                color: (enableEdit) ? Color.fromRGBO(255, 95, 155, 1) : Color.fromRGBO(255, 95, 155, 0)),
-                            ))
+                        Visibility(
+                          visible: user.uid == snapshot.data.employerID,
+                          child: FlatButton.icon(
+                              onPressed: (){
+                                if(user.uid == snapshot.data.employerID)
+                                  _showEditQuestPanel(snapshot.data);
+                              },
+                              icon: Icon(
+                                  Icons.settings,
+                                  color: Color.fromRGBO(255, 95, 155, 1)),
+                              label: Text("Edit", style: TextStyle(
+                                  color: Color.fromRGBO(255, 95, 155, 1)),
+                              )),
+                        )
                       ]
                   ),
 
@@ -68,57 +70,79 @@ class _QuestFormViewState extends State<QuestFormView> {
                           Row(
                             children: [
                               Text("Quest:  ", style: simpleTextStyle),
-                              Text("${widget.quest.title}", style: mediumTextStyle,),
+                              Text("${snapshot.data.title}", style: mediumTextStyle,),
+                            ],
+                          ),
+                          SizedBox(height: 20.0),
+                          Row(
+                            children: [
+                              Text("Status:  ", style: simpleTextStyle),
+                              Text("${snapshot.data.status}", style: mediumTextStyle,),
                             ],
                           ),
                           SizedBox(height: 20.0),
                           Row(
                             children: [
                               Text("Employer: ", style: simpleTextStyle),
-                              Text(snapshot.data.username, style: mediumTextStyle,),
+                              Text(snapshot.data.empUserName, style: mediumTextStyle,),
                             ],
                           ),
                           SizedBox(height: 20.0),
                           Row(
                             children: [
                               Text("Category: ", style: simpleTextStyle),
-                              Text(widget.quest.category, style: mediumTextStyle,),
+                              Text(snapshot.data.category, style: mediumTextStyle,),
                             ],
+                          ),
+                          Visibility(
+                              visible: snapshot.data.region != null,
+                              child: SizedBox(height: 20.0)),
+                          Visibility(
+                            visible: snapshot.data.region != null,
+                            child: Row(
+                              children: [
+                                Text("Region: ", style: simpleTextStyle),
+                                Text(snapshot.data.region ?? "", style: mediumTextStyle,),
+                              ],
+                            ),
                           ),
                           SizedBox(height: 20.0),
                           Row(
                             children: [
                               Text("Description: ", style: simpleTextStyle),
-                              Text(widget.quest.description, style: mediumTextStyle,),
+                              Flexible(child: Text(snapshot.data.description, style: mediumTextStyle,)),
                             ],
                           ),
                           SizedBox(height: 20.0),
                           Row(
                             children: [
                               Text("Prize: ", style: simpleTextStyle),
-                              Text("${widget.quest.prize} credits", style: mediumTextStyle,),
+                              Text("${snapshot.data.prize} credits", style: mediumTextStyle,),
                             ],
                           ),
                           SizedBox(height: 40.0),
-                          Align(
-                            alignment: Alignment.center,
-                            child: RaisedButton(
-                              color: Colors.pink[400],
-                              onPressed: (){
-                                _chatService.createChatRoomAndStartChat(
-                                    snapshot.data.username, snapshot1.data.username, context
-                                    );
-                              },
-                              child: Text("Go to chat with employer"),
+                          Visibility(
+                            visible: (snapshot.data.employerID != user.uid),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: RaisedButton(
+                                color: Colors.pink[400],
+                                onPressed: (){
+                                  _chatService.createChatRoomAndStartChat(
+                                      snapshot.data.empUserName, snapshot1.data.username, context
+                                      );
+                                },
+                                child: Text("Go to a chat with an employer", style: detailsTextStyle,),
+                              ),
                             ),
                           )
                         ],
                       ),
                     ),
                   )
-              );
+              ) : Loading();
             }
-          );
+          ) : Loading();
         }
     );
 

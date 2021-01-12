@@ -29,15 +29,19 @@ class DatabaseService{
     return await userCollection.document(key).collection("quests").add({"questID" : qid, "isOwner" : isOwner});
   }
   //upload quest info
-  Future updateQuestData(String qid, String title, String category, String description, String status, num prize, String employerID) async {
+  Future updateQuestData(String qid,String type, String title, String category, String region, String description, String status, num prize, String employerID, String empUserName, num time) async {
     return await questCollection.document(key).setData({
       'qid' : qid,
+      'type' : type,
       'title' : title,
       'category' : category,
+      'region' : region,
       'description' : description,
       'status': status,
       'prize': prize,
-      'employerID' : employerID
+      'employerID' : employerID,
+      'empUserName' : empUserName,
+      'time' : time,
     });
   }
   //quest list from snapshot
@@ -45,12 +49,16 @@ class DatabaseService{
     return snapshot.documents.map((doc){
       return Quest(
         qid: doc.data['qid'] ?? '',
+        type: doc.data['type'] ?? '',
         title: doc.data['title'] ?? '',
         employerID: doc.data['employerID'] ?? '',
+        empUserName: doc.data['empUserName'] ?? '',
         category: doc.data['category'] ?? '',
+        region: doc.data['region'] ?? '',
         description: doc.data['description']?? '',
         status: doc.data['status'] ?? '',
-        prize: doc.data['prize'] ?? ''
+        prize: doc.data['prize'] ?? '',
+        time: doc.data['time'] ?? 0,
       );
     }).toList();
   }
@@ -67,18 +75,22 @@ class DatabaseService{
   Quest _questDataFromSnapshot(DocumentSnapshot snapshot){
     return Quest(
       qid: key,
+      type: snapshot.data['type'],
       title: snapshot.data['title'],
       category: snapshot.data['category'],
+      region: snapshot.data['region'],
       description: snapshot.data['description'],
       status: snapshot.data['status'],
       prize: snapshot.data['prize'],
       employerID: snapshot.data['employerID'],
+      empUserName: snapshot.data['empUserName'],
+      time: snapshot.data['time']
     );
   }
 
   //get quest stream
 Stream<List<Quest>> get quests {
-    return questCollection.snapshots()
+    return questCollection.orderBy("time", descending: true).snapshots()
       .map(_questListFromSnapshot);
 }
 //get quest doc stream
@@ -104,6 +116,22 @@ Future getUserByUsername(String username) async{
   Future getUserByUid(String uid) async{
     return await userCollection.where("uid", isEqualTo: uid).getDocuments();
 
+  }
+  checkIfUserNameAvailable(String username) async {
+
+    final QuerySnapshot result = await Future.value(userCollection
+        .where('username', isEqualTo: username)
+        .limit(1)
+        .getDocuments());
+    print(" heyyy ${result.documents[0].data.toString()}");
+    //final List<DocumentSnapshot> documents = result.documents;
+    if (result.documents.length == 1) {
+      print("UserName Already Exits");
+        return false; //= documents.length == 1;
+    } else {
+      print("UserName is Available");
+      return true; //= documents.length == 1;
+    }
   }
 
   Future createChatRoom(String chatRoomID, dynamic users) async {

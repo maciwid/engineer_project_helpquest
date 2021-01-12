@@ -82,6 +82,9 @@ flutter:
        - asset: fonts/thunderstrikegrad.ttf
        - asset: fonts/thunderstrikeitalic.ttf
          style: italic
+   - family: FredokaOne
+     fonts:
+       - asset: fonts/FredokaOne-Regular.ttf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

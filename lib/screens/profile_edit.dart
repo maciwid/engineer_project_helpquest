@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:helpquest/models/user.dart';
 import 'package:helpquest/services/database.dart';
 import 'package:helpquest/shared/constants.dart';
+import 'package:helpquest/shared/loading.dart';
 import 'package:provider/provider.dart';
 
 class ProfileEdit extends StatefulWidget {
@@ -12,6 +14,8 @@ class ProfileEdit extends StatefulWidget {
 class _ProfileEditState extends State<ProfileEdit> {
   String _currentUsername;
   String _currentBio;
+  String error = '';
+  bool _userExist;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -21,7 +25,7 @@ class _ProfileEditState extends State<ProfileEdit> {
     return StreamBuilder<UserData>(
       stream: DatabaseService(key: user.uid).userData,
       builder: (context, snapshot) {
-        return Container(
+        return (snapshot.hasData) ? Container(
           decoration: boxBackgroundDecoration,
           child: Form(
               key: _formKey,
@@ -39,7 +43,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                       style: mediumTextStyle,
                       initialValue: snapshot.data.username,
                       decoration: textInputDecoration.copyWith(hintText: "username..."),
-                      validator: (val) => val.isEmpty ? 'Please enter an username':null,
+                      validator: (val) => (val.isEmpty ) ? 'Username cannot be empty':null,
                       onChanged: (val) => setState(()=> _currentUsername = val),
                     ),
                     SizedBox(height: 20.0),
@@ -52,7 +56,13 @@ class _ProfileEditState extends State<ProfileEdit> {
                       decoration: textInputDecoration.copyWith(hintText: "bio..."),
                       onChanged: (val) => setState(()=> _currentBio = val),
                     ),
-                    SizedBox(height: 50.0),
+                    SizedBox(height: 30.0),
+                    Text(
+                        error,
+                        style: TextStyle(color: primaryColor3,
+                            fontSize: 14.0)
+                    ),
+                    SizedBox(height: 10.0),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 0, horizontal: 90),
                       child: RaisedButton(
@@ -62,13 +72,42 @@ class _ProfileEditState extends State<ProfileEdit> {
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: ()async{
+
+                          final QuerySnapshot result = await Future.value(Firestore.instance
+                              .collection('users')
+                              .where('username', isEqualTo: _currentUsername)
+                              .limit(1)
+                              .getDocuments());
+                          final List<DocumentSnapshot> documents = result.documents;
+                          if(result.documents[0].data['username'] != snapshot.data.username) {
+                            if (documents.length == 1) {
+                              print("UserName Already Exits");
+                              setState(() {
+                                _userExist = documents.length == 1;
+                              });
+                            } else {
+                              print("UserName is Available");
+                              setState(() {
+                                _userExist = documents.length == 1;
+                              });
+                            }
+                          } else {
+                            setState((){_userExist = false;});
+                          }
                           if(_formKey.currentState.validate()){
-                            await DatabaseService(key: user.uid).updateUserData(
-                                _currentUsername ?? snapshot.data.username,
-                                snapshot.data.email,
-                                _currentBio ?? snapshot.data.bio,
-                                snapshot.data.isOnline);
-                            Navigator.pop(context);
+                            if (!_userExist) {
+                              await DatabaseService(key: user.uid)
+                                  .updateUserData(
+                                  _currentUsername ?? snapshot.data.username,
+                                  snapshot.data.email,
+                                  _currentBio ?? snapshot.data.bio,
+                                  snapshot.data.isOnline);
+                              Navigator.pop(context);
+                            }else{
+                              setState(() {
+                                error = 'this username already exists';
+                              });
+                            }
                           }
                         },
                       ),
@@ -78,7 +117,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                 ),
               )
           ),
-        );
+        ) : Loading();
       }
     );
   }

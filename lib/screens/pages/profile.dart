@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:helpquest/models/filter.dart';
 import 'package:helpquest/models/quest.dart';
 import 'package:helpquest/screens/profile_edit.dart';
 import 'package:helpquest/screens/quest_views/quest_list.dart';
@@ -16,6 +17,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final AuthService _auth = AuthService();
+  bool _showCompleted = true;
   @override
   Widget build(BuildContext context) {
     final userData = Provider.of<UserData>(context);
@@ -73,16 +75,31 @@ class _ProfileState extends State<Profile> {
                           Row(
                             children: [
                               Text("Bio:  ", style: simpleTextStyle),
-                              Text(userData.bio, style: mediumTextStyle),
+                              Flexible(child: Text(userData.bio, style: mediumTextStyle)),
                             ],
                           ),
                           SizedBox(height: 10,),
                           Align(
                               alignment: Alignment.centerLeft,
                               child: Text("Your quests:", style: simpleTextStyle,)),
+                          Container(
+                            height: 50,
+                            decoration: BoxDecoration(color: primaryColor2shade1),
+                            alignment: Alignment.center,
+                            child: CheckboxListTile(
+                              title: Text("Hide completed", style: simpleTextStyle),
+                              value: _showCompleted,
+                              activeColor: primaryColor1shade,
+                              onChanged: (val){
+                                setState(() {
+                                  _showCompleted = val;
+                                });
+                              },
+                            ),
+                          ),
                             Expanded(child: SizedBox(
                               height: 100,
-                                child: QuestList(true)))
+                                child: QuestList(true, _showCompleted, Filter())))
                         ],
                       ),
                     )

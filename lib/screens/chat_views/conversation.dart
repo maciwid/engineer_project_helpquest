@@ -75,7 +75,7 @@ TextEditingController messageController = new TextEditingController();
             Container(
               alignment: Alignment.bottomCenter,
               child: Container(
-                decoration: buttonDecoration,
+                decoration: inputBoxDecoration,
                 padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                 child: Row(
                     children: [
